@@ -90,6 +90,8 @@ def fetch_problem():
     })
 
     create_scaffold_for_solve(problem, source, get_language_extension(language), now)
+    print('open {}'.format(problem.url))
+    os.system('open "{}"'.format(problem.url))
 
 if __name__ == '__main__':
     cli()
