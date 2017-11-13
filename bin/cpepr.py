@@ -3,6 +3,7 @@ import os
 import json
 import datetime
 import random
+import subprocess
 import click
 from jinja2 import Template
 from collections import namedtuple
@@ -40,7 +41,7 @@ def get_random_problem():
     return Problem(
         id_=problem_information['id'], url=problem_information['url'],
         in_=open(os.path.join(problem_dir, 'in.txt')).read(),
-        out_=open((os.path.join(problem_dir, 'in.txt'))).read()
+        out_=open((os.path.join(problem_dir, 'out.txt'))).read()
     )
 
 
@@ -92,6 +93,32 @@ def fetch_problem():
     create_scaffold_for_solve(problem, source, get_language_extension(language), now)
     print('open {}'.format(problem.url))
     os.system('open "{}"'.format(problem.url))
+
+
+@cli.command(help="sample check")
+@click.option("--target", '-t')
+def check_sample(target):
+    language = get_default_language()
+    run_sh = os.path.join('language_templates', language, 'run.sh')
+
+    proc = subprocess.run(["sh", run_sh,
+        os.path.join(target, 'prog.{}'.format(get_language_extension(language))),
+        os.path.join(target, 'in.txt'),
+    ], stdout=subprocess.PIPE)
+
+    out = proc.stdout.decode('ascii')
+    sample = open(os.path.join(target, 'out.txt')).read()
+
+    if out == sample:
+        print('Accept')
+    else:
+        print('Wrong Anser')
+        print('output')
+        print(out)
+        print('-' * 20)
+        print('sample')
+        print(sample)
+
 
 if __name__ == '__main__':
     cli()
