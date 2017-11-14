@@ -120,5 +120,19 @@ def check_sample(target):
         print(sample)
 
 
+@cli.command(help="create problem")
+@click.argument('id')
+@click.argument('url')
+def create_problem(id, url):
+    os.makedirs(os.path.join(ASSET_DIR, 'problems', 'problem_{}'.format(id)))
+    os.system('touch {}'.format(os.path.join(ASSET_DIR, 'problems', 'problem_{}'.format(id), 'in.txt')))
+    os.system('touch {}'.format(os.path.join(ASSET_DIR, 'problems', 'problem_{}'.format(id), 'out.txt')))
+
+    json.dump({
+        "id": id,
+        "url": url,
+    }, open(os.path.join(ASSET_DIR, 'problems', 'problem_{}'.format(id), 'information.json'), 'w'))
+
+
 if __name__ == '__main__':
     cli()
