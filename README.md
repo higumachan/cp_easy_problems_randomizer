@@ -6,7 +6,7 @@
 競技プログラミングの簡単な問題をAOJというサイトから集めました。
 
 ```
-bin/cpepr n/fetch-problem
+bin/cpepr fetch_problem
 ```
 
 と実行すると。
@@ -18,7 +18,7 @@ bin/cpepr n/fetch-problem
 
 ```
 PROBLEM: {{problem_url}}
-created sources/20171112/{{problem_id}}.py
+created workdir/20171112/{{problem_id}}.py
 ```
 
 個人的な考えでは解けた!と満足することが大事なのでAOJ上でsubmitする必要は無いかと思います。(簡単な問題でも意外と表示のフォーマットで躓いたりするので)
@@ -89,7 +89,7 @@ bin/cpepr fetch-problem
 と実行すると
 
 ```
-sources/{{日付}}/{{problem_id}}.py
+workdir/{{日付}}/{{problem_id}}/prog.py
 ```
 
 というファイルが出来上がります。(`bin/cpepr set-lang python3`を実行したことが前提になってますが各言語毎に読み替えてください)
@@ -108,14 +108,16 @@ pythonだと以下のようなファイルになっています。
 # PROBLEM: "{{problem_url}}"
 # DATETIME: "{{YYYYMMDD}}"
 
+
 def main():
-	while True:
-	    try:
-	    	 # Some input "raw_input"
-	    	 # Some output
-	    except:
-	        pass
-    
+    try:
+        while True:
+                input()
+                # Some input "raw_input"
+                # Some output
+    except:
+        pass
+
 
 if __name__ == '__main__':
     main()
@@ -133,7 +135,7 @@ if __name__ == '__main__':
 自動的にサンプルを通すなら以下の手順で出来ます。
 
 ```
-bin/cpepr sample-checker sources/{{日付}}/{{problem_id}}.py
+bin/cpepr check_sample workdir/{{日付}}/{{problem_id}}/prog.py
 ```
 
 AOJではサンプルに書いてある入力の他に多数の入力をしてプログラムの成否を確かめてくれる機能がありますが、そこまで通していると意外と5分以上過ぎてしまう場合があるのでスキップしてしまってよいと思います。
